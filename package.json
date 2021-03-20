@@ -8,7 +8,9 @@
   "scripts": {
     "start": "nodemon index.js",
     "lint": "eslint . --ext .js",
-    "lint:fix": "npm run lint -- --fix"
+    "lint:fix": "npm run lint -- --fix",
+    "migration:generate": "npx sequelize migration:generate --name",
+    "migration:run": "npx sequelize db:migrate"
   },
   "lint-staged": {
     "*.{js}": [
