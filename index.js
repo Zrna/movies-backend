@@ -1,8 +1,15 @@
-import cors from 'cors';
-import express from 'express';
+const cors = require('cors');
+const express = require('express');
+
+const db = require('./models');
 
 const PORT = 5000;
 const app = express();
+
+db.sequelize
+  .authenticate()
+  .then(() => console.log('Database connected'))
+  .catch(error => console.log('Database connection error:', error));
 
 app.use(cors());
 app.use(express.json());
