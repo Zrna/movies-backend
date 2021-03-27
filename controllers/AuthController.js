@@ -11,6 +11,14 @@ const auth_register = async (req, res) => {
     },
   });
 
+  if (!password) {
+    return res.status(422).json({ error: "Password can't be empty" });
+  }
+
+  if (!email) {
+    return res.status(422).json({ error: "Email can't be empty" });
+  }
+
   if (emailExist) {
     return res.status(409).json({ error: 'This email is already registered' });
   }
@@ -28,7 +36,7 @@ const auth_register = async (req, res) => {
     })
     .catch(error => {
       if (error) {
-        return res.status(400).json({ error });
+        return res.status(500).json({ error });
       }
     });
 };
