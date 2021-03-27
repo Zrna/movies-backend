@@ -6,7 +6,7 @@
 2. Create `.env` file - see `example.env` in root of the project
    - insert your database credentials in `.env` file
 3. Run `npm install` to install necessary npm packages
-4. Run `npm migrate:run` to run db migrations
+4. Run `npm migration:run` to run db migrations
 5. Run `npm start` to start the project
 
 ## Migrations
