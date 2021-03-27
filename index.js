@@ -1,6 +1,9 @@
 const cors = require('cors');
 const express = require('express');
+const swaggerJsDoc = require('swagger-jsdoc');
+const swaggerUI = require('swagger-ui-express');
 
+const swaggerOptions = require('./config/swaggerOptions');
 const db = require('./models');
 const authRoutes = require('./routes/Auth');
 
@@ -11,6 +14,10 @@ db.sequelize
   .authenticate()
   .then(() => console.log('Database connected'))
   .catch(error => console.log('Database connection error:', error));
+
+const swaggerDocs = swaggerJsDoc(swaggerOptions);
+console.log('swaggerDocs', swaggerDocs);
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
 
 app.use(cors());
 app.use(express.json());

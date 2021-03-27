@@ -18,3 +18,7 @@ npm run migration:generate *table_name*
 ```
 
 The created migration will appear in the `migrations` folder.
+
+## Swagger
+
+Swagger is running on [http://localhost:5000/api-docs](http://localhost:5000/api-docs)
