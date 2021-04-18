@@ -13,15 +13,21 @@ const auth_register = async (req, res) => {
   });
 
   if (!password) {
-    return res.status(422).json({ error: "Password can't be empty" });
+    return res.status(422).json({
+      error: "Password can't be empty",
+    });
   }
 
   if (!email) {
-    return res.status(422).json({ error: "Email can't be empty" });
+    return res.status(422).json({
+      error: "Email can't be empty",
+    });
   }
 
   if (emailExist) {
-    return res.status(409).json({ error: 'This email is already registered' });
+    return res.status(409).json({
+      error: 'This email is already registered',
+    });
   }
 
   bcrypt
@@ -52,14 +58,18 @@ const auth_login = async (req, res) => {
   });
 
   if (!user) {
-    return res.status(404).json({ error: 'User does not exist' });
+    return res.status(404).json({
+      error: 'User does not exist',
+    });
   }
 
   const dbPassword = user.dataValues.password;
 
   bcrypt.compare(password, dbPassword).then(match => {
     if (!match) {
-      return res.status(401).json({ error: 'Wrong username and password combination' });
+      return res.status(401).json({
+        error: 'Wrong username and password combination',
+      });
     } else {
       const accessToken = createAccessToken(user);
 
