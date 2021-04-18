@@ -1,3 +1,4 @@
+const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const express = require('express');
 const swaggerJsDoc = require('swagger-jsdoc');
@@ -6,6 +7,7 @@ const swaggerUI = require('swagger-ui-express');
 const swaggerOptions = require('./config/swaggerOptions');
 const db = require('./models');
 const authRoutes = require('./routes/Auth');
+const userRoutes = require('./routes/User');
 
 const PORT = 5000;
 const app = express();
@@ -19,6 +21,7 @@ const swaggerDocs = swaggerJsDoc(swaggerOptions);
 console.log('swaggerDocs', swaggerDocs);
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
 
+app.use(cookieParser());
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
