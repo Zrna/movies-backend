@@ -4,7 +4,7 @@ const { User } = require('../models');
 const { createAccessToken } = require('../utils/token');
 
 const auth_register = async (req, res) => {
-  const { email, password } = req.body;
+  const { email, firstName, lastName, password } = req.body;
 
   const emailExist = await User.findOne({
     where: {
@@ -24,6 +24,18 @@ const auth_register = async (req, res) => {
     });
   }
 
+  if (!firstName) {
+    return res.status(422).json({
+      error: "First name can't be empty",
+    });
+  }
+
+  if (!lastName) {
+    return res.status(422).json({
+      error: "Last name can't be empty",
+    });
+  }
+
   if (emailExist) {
     return res.status(409).json({
       error: 'This email is already registered',
@@ -35,6 +47,8 @@ const auth_register = async (req, res) => {
     .then(hashPassword => {
       User.create({
         email,
+        firstName,
+        lastName,
         password: hashPassword,
       });
     })

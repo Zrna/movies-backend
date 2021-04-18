@@ -23,6 +23,12 @@ const router = express.Router();
  *              password:
  *                type: string
  *                example: abc123
+ *              firstName:
+ *                type: string
+ *                example: John
+ *              lastName:
+ *                type: string
+ *                example: Smith
  *    responses:
  *      201:
  *        description: User created
@@ -42,7 +48,7 @@ const router = express.Router();
  *                  type: string
  *                  example: This email is already registered
  *      422:
- *        description: Error message `Password can't be empty` or `Email can't be empty`
+ *        description: Error message `Password can't be empty` or `Email can't be empty` or `First name can't be empty` or `Last name can't be empty`
  *        content:
  *          application/json:
  *            schema:
