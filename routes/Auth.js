@@ -64,4 +64,57 @@ const router = express.Router();
  */
 router.post('/register', AuthController.auth_register);
 
+/**
+ * @swagger
+ * /login:
+ *  post:
+ *    summary: Login user
+ *    description: Login user
+ *    requestBody:
+ *      description: Login user
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            properties:
+ *              email:
+ *                type: string
+ *                example: example@email.com
+ *              password:
+ *                type: string
+ *                example: abc123
+ *    responses:
+ *      200:
+ *        description: User logged in - JWT token
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                accessToken:
+ *                  type: string
+ *                  example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJ6cm5hQGdtYWlsLmNvbSIsImlhdCI6MTYxODczNDc1Nn0.mPoLKTFGB-rgfp5RhjkQynfOB75O2jUkS5ijZRzIjGU'
+ *      401:
+ *        description: Wrong username and password combination
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                error:
+ *                  type: string
+ *                  example: 'Wrong username and password combination'
+ *      404:
+ *        description: User does not exist
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                error:
+ *                  type: string
+ *                  example: 'User does not exist'
+ */
+router.post('/login', AuthController.auth_login);
+
 module.exports = router;

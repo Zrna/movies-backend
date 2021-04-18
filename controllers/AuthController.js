@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 
 const { User } = require('../models');
+const { createAccessToken } = require('../utils/token');
 
 const auth_register = async (req, res) => {
   const { email, password } = req.body;
@@ -41,6 +42,38 @@ const auth_register = async (req, res) => {
     });
 };
 
+const auth_login = async (req, res) => {
+  const { email, password } = req.body;
+
+  const user = await User.findOne({
+    where: {
+      email: email,
+    },
+  });
+
+  if (!user) {
+    return res.status(404).json({ error: 'User does not exist' });
+  }
+
+  const dbPassword = user.dataValues.password;
+
+  bcrypt.compare(password, dbPassword).then(match => {
+    if (!match) {
+      return res.status(401).json({ error: 'Wrong username and password combination' });
+    } else {
+      const accessToken = createAccessToken(user);
+
+      res.cookie('access-token', accessToken, {
+        maxAge: 60 * 60 * 24 * 30 * 1000, // expires after 30 days
+        httpOnly: true,
+      });
+
+      return res.status(200).json({ accessToken });
+    }
+  });
+};
+
 module.exports = {
+  auth_login,
   auth_register,
 };
