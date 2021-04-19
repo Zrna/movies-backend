@@ -31,6 +31,7 @@ app.get('/', (req, res) => {
 });
 
 app.use(authRoutes);
+app.use(userRoutes);
 
 app.listen(PORT, error => {
   if (error) return console.log(`Cannot listen on PORT: ${PORT}`);
