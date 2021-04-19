@@ -8,6 +8,8 @@ const router = express.Router();
  * @swagger
  * /register:
  *  post:
+ *    tags:
+ *      - auth
  *    summary: Register user
  *    description: Register user
  *    requestBody:
@@ -74,6 +76,8 @@ router.post('/register', AuthController.auth_register);
  * @swagger
  * /login:
  *  post:
+ *    tags:
+ *      - auth
  *    summary: Login user
  *    description: Login user
  *    requestBody:
