@@ -24,6 +24,32 @@ const get_account = async (req, res) => {
   });
 };
 
+const delete_account = (req, res) => {
+  const accessToken = req.cookies['access-token'];
+  const decodedToken = decode(accessToken);
+  const userId = decodedToken.id;
+
+  User.destroy({
+    where: {
+      id: userId,
+    },
+  })
+    .then(() =>
+      res
+        .status(200)
+        .cookie('access-token', '', {
+          maxAge: 1,
+        })
+        .json(true)
+    )
+    .catch(() =>
+      res.status(500).json({
+        error: `Something went wrong with deleting account with id ${userId}`,
+      })
+    );
+};
+
 module.exports = {
   get_account,
+  delete_account,
 };

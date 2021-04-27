@@ -52,4 +52,28 @@ const router = express.Router();
  */
 router.get('/api/account', validateToken, UserController.get_account);
 
+/**
+ * @swagger
+ * /api/account:
+ *  delete:
+ *    tags:
+ *      - account
+ *    summary: Delete account
+ *    description: Required `access-token` in cookies
+ *    responses:
+ *      200:
+ *        description: Account deleted - returns `true`
+ *      500:
+ *        description: Server Error
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                error:
+ *                  type: string
+ *                  example: Something went wrong with deleting account with id {userId}
+ */
+router.delete('/api/account', validateToken, UserController.delete_account);
+
 module.exports = router;
