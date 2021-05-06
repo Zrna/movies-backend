@@ -10,7 +10,9 @@
     "lint": "eslint . --ext .js",
     "lint:fix": "npm run lint -- --fix",
     "migration:generate": "npx sequelize migration:generate --name",
-    "migration:run": "npx sequelize db:migrate"
+    "migration:run": "npx sequelize db:migrate",
+    "migration:undo": "npx sequelize db:migrate:undo",
+    "migrations:rerun": "npx sequelize db:migration"
   },
   "lint-staged": {
     "*.{js}": [
