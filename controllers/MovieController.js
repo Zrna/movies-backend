@@ -8,11 +8,15 @@ const create_review = async (req, res) => {
   const review = req.body.review.trim();
 
   if (!name) {
-    return res.status(400).json({ error: "Name can't be empty" });
+    return res.status(422).json({
+      error: "Name can't be empty",
+    });
   }
 
   if (!review) {
-    return res.status(400).json({ error: "Review can't be empty" });
+    return res.status(422).json({
+      error: "Review can't be empty",
+    });
   }
 
   const movieExist = await Movie.findOne({

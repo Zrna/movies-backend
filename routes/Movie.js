@@ -71,16 +71,6 @@ const router = express.Router();
  *          application/json:
  *            schema:
  *              $ref: '#/definitions/MovieResponse'
- *      400:
- *        description: Two types `Name can't be empty` or `Review can't be empty`
- *        content:
- *          application/json:
- *            schema:
- *              type: object
- *              properties:
- *                error:
- *                  type: string
- *                  example: Name can't be empty
  *      409:
  *        description: Review for the movie already exists
  *        content:
@@ -91,6 +81,16 @@ const router = express.Router();
  *                error:
  *                  type: string
  *                  example: Review for 'Batman' already exists
+ *      422:
+ *        description: Two types `Name can't be empty` or `Review can't be empty`
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                error:
+ *                  type: string
+ *                  example: Name can't be empty
  *      500:
  *        description: Some error
  *        content:
