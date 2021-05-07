@@ -46,6 +46,55 @@ const router = express.Router();
 /**
  * @swagger
  * /api/movies:
+ *  get:
+ *    tags:
+ *      - movies
+ *    summary: Get all user's movies
+ *    description: Get all user's movies based on `access-token` from cookies
+ *    responses:
+ *      200:
+ *        description: User's reviews
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                movies:
+ *                  type: array
+ *                  items: object
+ *                  example: [
+ *                    {
+ *                      "id": 1,
+ *                      "userId": 1,
+ *                      "name": "Bad Boys",
+ *                      "review": "Good Movie",
+ *                      "createdAt": "2021-05-07T09:05:21.000Z",
+ *                      "updatedAt": "2021-05-07T09:05:21.000Z"
+ *                    },
+ *                    {
+ *                      "id": 2,
+ *                      "userId": 1,
+ *                      "name": "Batman",
+ *                      "review": "Not bad",
+ *                      "createdAt": "2021-05-07T09:06:02.000Z",
+ *                      "updatedAt": "2021-05-07T09:06:02.000Z"
+ *                    },
+ *                  ]
+ *                totalRecords:
+ *                  type: number
+ *                  example: 2
+ *      500:
+ *        description: Some error
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/definitions/MovieServerError'
+ */
+router.get('/api/movies', validateToken, MovieController.get_all_movies);
+
+/**
+ * @swagger
+ * /api/movies:
  *  post:
  *    tags:
  *      - movies
