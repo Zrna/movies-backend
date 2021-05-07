@@ -45,7 +45,7 @@ const router = express.Router();
 
 /**
  * @swagger
- * /api/movie:
+ * /api/movies:
  *  post:
  *    tags:
  *      - movies
@@ -98,6 +98,6 @@ const router = express.Router();
  *            schema:
  *              $ref: '#/definitions/MovieServerError'
  */
-router.post('/api/movie', validateToken, MovieController.create_review);
+router.post('/api/movies', validateToken, MovieController.create_review);
 
 module.exports = router;
