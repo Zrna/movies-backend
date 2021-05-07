@@ -1,14 +1,12 @@
-const { decode } = require('jsonwebtoken');
-
 const { User } = require('../models');
+const { getUserIdFromRequest } = require('../utils/user');
 
 const get_account = async (req, res) => {
-  const accessToken = req.cookies['access-token'];
-  const decodedToken = decode(accessToken);
+  const userId = getUserIdFromRequest(req);
 
   const user = await User.findOne({
     where: {
-      id: decodedToken.id,
+      id: userId,
     },
   });
 
@@ -25,9 +23,7 @@ const get_account = async (req, res) => {
 };
 
 const update_account = (req, res) => {
-  const accessToken = req.cookies['access-token'];
-  const decodedToken = decode(accessToken);
-  const userId = decodedToken.id;
+  const userId = getUserIdFromRequest(req);
 
   const { firstName, lastName } = req.body;
 
@@ -86,9 +82,7 @@ const update_account = (req, res) => {
 };
 
 const delete_account = (req, res) => {
-  const accessToken = req.cookies['access-token'];
-  const decodedToken = decode(accessToken);
-  const userId = decodedToken.id;
+  const userId = getUserIdFromRequest(req);
 
   User.destroy({
     where: {
