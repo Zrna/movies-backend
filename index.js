@@ -8,6 +8,7 @@ const swaggerOptions = require('./config/swaggerOptions');
 const db = require('./models');
 const authRoutes = require('./routes/Auth');
 const userRoutes = require('./routes/User');
+const movieRoutes = require('./routes/Movie');
 
 const PORT = 5000;
 const app = express();
@@ -32,6 +33,7 @@ app.get('/', (req, res) => {
 
 app.use(authRoutes);
 app.use(userRoutes);
+app.use(movieRoutes);
 
 app.listen(PORT, error => {
   if (error) return console.log(`Cannot listen on PORT: ${PORT}`);
