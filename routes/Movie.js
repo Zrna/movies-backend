@@ -149,4 +149,56 @@ router.get('/api/movies', validateToken, MovieController.get_all_movies);
  */
 router.post('/api/movies', validateToken, MovieController.create_movie_review);
 
+/**
+ * @swagger
+ * /api/movies/:id:
+ *  get:
+ *    tags:
+ *      - movies
+ *    summary: Get movie by id
+ *    description: Get movie by `id` from URL params
+ *    parameters:
+ *      - in: path
+ *        name: id
+ *        schema:
+ *          type: integer
+ *        required: true
+ *        description: Movie id
+ *        example: 1
+ *    responses:
+ *      200:
+ *        description: Movie
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/definitions/MovieResponse'
+ *      403:
+ *        description: Forbidden - `userId` from cookies and `movie.userId` are not the same
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                error:
+ *                  type: string
+ *                  example: Forbidden
+ *      404:
+ *        description: Movie not found
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                error:
+ *                  type: string
+ *                  example: Movie with id {id} not found
+ *      500:
+ *        description: Some error
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/definitions/MovieServerError'
+ */
+router.get('/api/movies/:id', validateToken, MovieController.get_movie_by_id);
+
 module.exports = router;
