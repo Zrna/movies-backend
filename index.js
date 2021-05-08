@@ -27,13 +27,15 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.get('/', (req, res) => {
-  res.send('hello world');
-});
-
 app.use(authRoutes);
 app.use(userRoutes);
 app.use(movieRoutes);
+
+app.use('*', (_, res) => {
+  return res.status(404).send({
+    error: 'Route Not Found',
+  });
+});
 
 app.listen(PORT, error => {
   if (error) return console.log(`Cannot listen on PORT: ${PORT}`);
