@@ -99,8 +99,29 @@ const get_movie_by_id = (req, res) => {
     });
 };
 
+const delete_movie_by_id = (req, res) => {
+  const userId = getUserIdFromRequest(req);
+  const movieId = req.params.id;
+
+  Movie.destroy({
+    where: {
+      id: movieId,
+      userId,
+    },
+  })
+    .then(() => {
+      return res.status(200).json(true);
+    })
+    .catch(err => {
+      return res.status(err.status || 500).json({
+        error: err.message || 'Something went wrong with deleting the movie',
+      });
+    });
+};
+
 module.exports = {
   create_movie_review,
+  delete_movie_by_id,
   get_all_movies,
   get_movie_by_id,
 };

@@ -201,4 +201,32 @@ router.post('/api/movies', validateToken, MovieController.create_movie_review);
  */
 router.get('/api/movies/:id', validateToken, MovieController.get_movie_by_id);
 
+/**
+ * @swagger
+ * /api/movies/:id:
+ *  delete:
+ *    tags:
+ *      - movies
+ *    summary: Delete movie by id
+ *    description: Delete movie by id
+ *    parameters:
+ *      - in: path
+ *        name: id
+ *        schema:
+ *          type: integer
+ *        required: true
+ *        description: movie id
+ *        example: 1
+ *    responses:
+ *      200:
+ *        description: Returns `true`
+ *      500:
+ *        description: Server error
+ *        content:
+ *          application/json:
+ *           schema:
+ *             $ref: '#/definitions/MovieServerError'
+ */
+router.delete('/api/movies/:id', validateToken, MovieController.delete_movie_by_id);
+
 module.exports = router;
