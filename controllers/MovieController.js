@@ -22,7 +22,7 @@ const get_all_movies = (req, res) => {
     });
 };
 
-const create_review = async (req, res) => {
+const create_movie_review = async (req, res) => {
   const userId = getUserIdFromRequest(req);
 
   const name = req.body.name.trim();
@@ -69,6 +69,6 @@ const create_review = async (req, res) => {
 };
 
 module.exports = {
-  create_review,
+  create_movie_review,
   get_all_movies,
 };

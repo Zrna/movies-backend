@@ -147,6 +147,6 @@ router.get('/api/movies', validateToken, MovieController.get_all_movies);
  *            schema:
  *              $ref: '#/definitions/MovieServerError'
  */
-router.post('/api/movies', validateToken, MovieController.create_review);
+router.post('/api/movies', validateToken, MovieController.create_movie_review);
 
 module.exports = router;
