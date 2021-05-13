@@ -35,6 +35,18 @@ const router = express.Router();
  *        type: string
  *        description: update date
  *        example: 2021-05-15T20:26:39.798Z
+ *  MovieForbidden:
+ *    type: object
+ *    properties:
+ *      error:
+ *        type: string
+ *        example: Forbidden
+ *  MovieNotFound:
+ *    type: object
+ *    properties:
+ *      error:
+ *        type: string
+ *        example: Movie with id {id} not found
  *  MovieServerError:
  *    type: object
  *    properties:
@@ -177,21 +189,13 @@ router.post('/api/movies', validateToken, MovieController.create_movie_review);
  *        content:
  *          application/json:
  *            schema:
- *              type: object
- *              properties:
- *                error:
- *                  type: string
- *                  example: Forbidden
+ *              $ref: '#/definitions/MovieForbidden'
  *      404:
  *        description: Movie not found
  *        content:
  *          application/json:
  *            schema:
- *              type: object
- *              properties:
- *                error:
- *                  type: string
- *                  example: Movie with id {id} not found
+ *              $ref: '#/definitions/MovieNotFound'
  *      500:
  *        description: Some error
  *        content:
@@ -200,6 +204,73 @@ router.post('/api/movies', validateToken, MovieController.create_movie_review);
  *              $ref: '#/definitions/MovieServerError'
  */
 router.get('/api/movies/:id', validateToken, MovieController.get_movie_by_id);
+
+/**
+ * @swagger
+ * /api/movies/:id:
+ *  put:
+ *    tags:
+ *      - movies
+ *    summary: Update movie by id
+ *    description: Update movie by id
+ *    consumes:
+ *      - application/json
+ *    produces:
+ *      - application/json
+ *    parameters:
+ *      - in: path
+ *        name: id
+ *        schema:
+ *          type: integer
+ *        required: true
+ *        description: movie id
+ *        example: 1
+ *      - in: body
+ *        name: body
+ *        required: true
+ *        description: body object
+ *        schema:
+ *          type: object
+ *          properties:
+ *            review:
+ *              type: string
+ *              example: Great movie
+ *    requestBody:
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            properties:
+ *              review:
+ *                type: string
+ *                example: Great movie
+ *    responses:
+ *      200:
+ *        description: Updated success
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/definitions/MovieResponse'
+ *      403:
+ *        description: Forbidden - `userId` from cookies and `movie.userId` are not the same
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/definitions/MovieForbidden'
+ *      404:
+ *        description: Movie not found
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/definitions/MovieNotFound'
+ *      500:
+ *        description: Server error
+ *        content:
+ *          application/json:
+ *           schema:
+ *             $ref: '#/definitions/MovieServerError'
+ */
+router.put('/api/movies/:id', validateToken, MovieController.update_movie_by_id);
 
 /**
  * @swagger

@@ -99,6 +99,62 @@ const get_movie_by_id = (req, res) => {
     });
 };
 
+const update_movie_by_id = async (req, res) => {
+  const userId = getUserIdFromRequest(req);
+  const movieId = req.params.id;
+  const review = req.body.review.trim();
+
+  if (!review) {
+    return res.status(422).json({
+      error: "Review can't be empty",
+    });
+  }
+
+  Movie.update(
+    {
+      review,
+    },
+    {
+      where: {
+        userId,
+        id: movieId,
+      },
+    }
+  )
+    .then(() => {
+      Movie.findOne({
+        where: {
+          id: movieId,
+        },
+      })
+        .then(movie => {
+          if (!movie) {
+            return res.status(404).json({
+              error: `Movie with id ${movieId} not found`,
+            });
+          }
+
+          if (movie.userId !== userId) {
+            return res.status(403).json({
+              error: 'Forbidden',
+            });
+          }
+
+          return res.status(200).json(movie);
+        })
+        .catch(err => {
+          return res.status(err.status || 404).json({
+            error: err.message || 'Movie Not Found',
+          });
+        });
+    })
+    .catch(err => {
+      return res.status(err.status || 500).json({
+        error: err.message || 'Server Error',
+      });
+    });
+};
+
 const delete_movie_by_id = (req, res) => {
   const userId = getUserIdFromRequest(req);
   const movieId = req.params.id;
@@ -124,4 +180,5 @@ module.exports = {
   delete_movie_by_id,
   get_all_movies,
   get_movie_by_id,
+  update_movie_by_id,
 };
