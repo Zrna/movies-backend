@@ -22,3 +22,7 @@ The created migration will appear in the `migrations` folder.
 ## Swagger
 
 Swagger is running on [http://localhost:5000/api-docs](http://localhost:5000/api-docs)
+
+# Frontend part
+
+https://github.com/Zrna/movies-web
