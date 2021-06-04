@@ -89,7 +89,7 @@ const auth_login = async (req, res) => {
 
       res.cookie('access-token', accessToken, {
         maxAge: 60 * 60 * 24 * 30 * 1000, // expires after 30 days
-        httpOnly: true,
+        // httpOnly: true, // if active, can't read cookie from the frontend
       });
 
       return res.status(200).json({ accessToken });
