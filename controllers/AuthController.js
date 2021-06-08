@@ -44,15 +44,26 @@ const auth_register = async (req, res) => {
 
   bcrypt
     .hash(password, 10)
-    .then(hashPassword => {
-      User.create({
+    .then(async hashPassword => {
+      await User.create({
         email,
         firstName,
         lastName,
         password: hashPassword,
       });
     })
-    .then(() => {
+    .then(async () => {
+      const user = await User.findOne({
+        where: { email },
+      });
+
+      const accessToken = createAccessToken(user);
+
+      res.cookie('access-token', accessToken, {
+        maxAge: 60 * 60 * 24 * 30 * 1000, // expires after 30 days
+        // httpOnly: true, // if active, can't read cookie from the frontend
+      });
+
       return res.status(201).json('User registered');
     })
     .catch(error => {
