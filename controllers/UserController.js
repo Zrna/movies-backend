@@ -41,8 +41,8 @@ const update_account = (req, res) => {
 
   User.update(
     {
-      firstName,
-      lastName,
+      firstName: firstName.trim(),
+      lastName: lastName.trim(),
     },
     {
       where: {
