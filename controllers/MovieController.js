@@ -112,7 +112,7 @@ const update_movie_by_id = async (req, res) => {
 
   Movie.update(
     {
-      review,
+      review: review.trim(),
     },
     {
       where: {
