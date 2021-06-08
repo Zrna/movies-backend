@@ -8,7 +8,7 @@ const auth_register = async (req, res) => {
 
   const emailExist = await User.findOne({
     where: {
-      email,
+      email: email.trim(),
     },
   });
 
@@ -46,9 +46,9 @@ const auth_register = async (req, res) => {
     .hash(password, 10)
     .then(async hashPassword => {
       await User.create({
-        email,
-        firstName,
-        lastName,
+        email: email.trim(),
+        firstName: firstName.trim(),
+        lastName: lastName.trim(),
         password: hashPassword,
       });
     })
@@ -78,7 +78,7 @@ const auth_login = async (req, res) => {
 
   const user = await User.findOne({
     where: {
-      email: email,
+      email: email.trim(),
     },
   });
 
