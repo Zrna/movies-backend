@@ -1,4 +1,4 @@
-const { User } = require('../models');
+const { User, Movie } = require('../models');
 const { getUserIdFromRequest } = require('../utils/user');
 
 const get_account = async (req, res) => {
@@ -89,14 +89,15 @@ const delete_account = (req, res) => {
       id: userId,
     },
   })
-    .then(() =>
-      res
-        .status(200)
-        .cookie('access-token', '', {
-          maxAge: 1,
-        })
-        .json(true)
-    )
+    .then(() => {
+      Movie.destroy({
+        where: {
+          userId,
+        },
+      });
+
+      return res.status(200).cookie('access-token', '', { maxAge: 1 }).json(true);
+    })
     .catch(() =>
       res.status(500).json({
         error: `Something went wrong with deleting account with id ${userId}`,
