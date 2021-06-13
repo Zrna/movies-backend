@@ -11,7 +11,7 @@ const get_all_movies = (req, res) => {
   })
     .then(movies => {
       return res.status(200).json({
-        movies,
+        data: movies,
         totalRecords: movies.length,
       });
     })
