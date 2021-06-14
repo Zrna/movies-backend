@@ -25,8 +25,8 @@ const get_all_movies = (req, res) => {
 const create_movie_review = async (req, res) => {
   const userId = getUserIdFromRequest(req);
 
-  const name = req.body.name.trim();
-  const review = req.body.review.trim();
+  const name = req.body.name && req.body.name.trim();
+  const review = req.body.review && req.body.review.trim();
 
   if (!name) {
     return res.status(422).json({
