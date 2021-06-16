@@ -15,6 +15,10 @@ const router = express.Router();
  *        type: number
  *        description: movie id
  *        example: 1
+ *      userId:
+ *        type: numner
+ *        description: user id
+ *        example: 1
  *      name:
  *        type: string
  *        description: movie name
@@ -23,10 +27,10 @@ const router = express.Router();
  *        type: string
  *        description: movie review
  *        example: Great movie
- *      userId:
- *        type: numner
- *        description: user id
- *        example: 1
+ *      rating:
+ *        type: ['null', number]
+ *        description: movie rating
+ *        example: 4
  *      createdAt:
  *        type: string
  *        description: date of creation
@@ -113,7 +117,7 @@ router.get('/api/movies', validateToken, MovieController.get_all_movies);
  *    summary: Create review
  *    description: Required `access-token` in cookies
  *    requestBody:
- *      description: Movie that will be added to the database
+ *      description: Movie that will be added to the database. Rating can be `number` or `null`
  *      content:
  *        application/json:
  *          schema:
@@ -125,6 +129,9 @@ router.get('/api/movies', validateToken, MovieController.get_all_movies);
  *              review:
  *                type: string
  *                example: Great movie
+ *              rating:
+ *                type: ['null', number]
+ *                example: 5
  *    responses:
  *      201:
  *        description: Review created
@@ -212,7 +219,7 @@ router.get('/api/movies/:id', validateToken, MovieController.get_movie_by_id);
  *    tags:
  *      - movies
  *    summary: Update movie by id
- *    description: Update movie by id
+ *    description: Update movie by id. Rating can be `number` or `null`
  *    consumes:
  *      - application/json
  *    produces:
@@ -235,6 +242,9 @@ router.get('/api/movies/:id', validateToken, MovieController.get_movie_by_id);
  *            review:
  *              type: string
  *              example: Great movie
+ *            rating:
+ *              type: ['null', number]
+ *              example: 4
  *    requestBody:
  *      content:
  *        application/json:
@@ -244,6 +254,9 @@ router.get('/api/movies/:id', validateToken, MovieController.get_movie_by_id);
  *              review:
  *                type: string
  *                example: Great movie
+ *              rating:
+ *                type: number
+ *                example: 4
  *    responses:
  *      200:
  *        description: Updated success
