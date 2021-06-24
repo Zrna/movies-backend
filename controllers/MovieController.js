@@ -25,7 +25,7 @@ const get_all_movies = (req, res) => {
 const create_movie_review = async (req, res) => {
   const userId = getUserIdFromRequest(req);
 
-  const { name: reqName, rating, review: reqReview } = req.body;
+  const { name: reqName, rating, review: reqReview, url } = req.body;
 
   const name = reqName && reqName.trim();
   const review = reqReview && reqReview.trim();
@@ -59,6 +59,7 @@ const create_movie_review = async (req, res) => {
     name,
     rating,
     review,
+    url,
     userId,
   })
     .then(movie => {
@@ -106,7 +107,7 @@ const update_movie_by_id = async (req, res) => {
   const userId = getUserIdFromRequest(req);
   const movieId = req.params.id;
 
-  const { rating, review: reqReview } = req.body;
+  const { rating, review: reqReview, url } = req.body;
   const review = reqReview && reqReview.trim();
 
   if (!review) {
@@ -119,6 +120,7 @@ const update_movie_by_id = async (req, res) => {
     {
       rating,
       review,
+      url,
     },
     {
       where: {

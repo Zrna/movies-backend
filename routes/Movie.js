@@ -31,6 +31,10 @@ const router = express.Router();
  *        type: ['null', number]
  *        description: movie rating
  *        example: 4
+ *      url:
+ *        type: ['null', string]
+ *        description: movie url
+ *        example: https://www.youtube.com/watch?v=-FZ-pPFAjYY
  *      createdAt:
  *        type: string
  *        description: date of creation
@@ -84,6 +88,8 @@ const router = express.Router();
  *                      "userId": 1,
  *                      "name": "Bad Boys",
  *                      "review": "Good Movie",
+ *                      "rating": 5,
+ *                      "url": "https://www.youtube.com/watch?v=Xm12NSa8jsM",
  *                      "createdAt": "2021-05-07T09:05:21.000Z",
  *                      "updatedAt": "2021-05-07T09:05:21.000Z"
  *                    },
@@ -92,6 +98,8 @@ const router = express.Router();
  *                      "userId": 1,
  *                      "name": "Batman",
  *                      "review": "Not bad",
+ *                      "rating": null,
+ *                      "url": null,
  *                      "createdAt": "2021-05-07T09:06:02.000Z",
  *                      "updatedAt": "2021-05-07T09:06:02.000Z"
  *                    },
@@ -117,7 +125,7 @@ router.get('/api/movies', validateToken, MovieController.get_all_movies);
  *    summary: Create review
  *    description: Required `access-token` in cookies
  *    requestBody:
- *      description: Movie that will be added to the database. Rating can be `number` or `null`
+ *      description: Movie that will be added to the database. Rating can be `number` or `null`, URL can be `string` or `null`
  *      content:
  *        application/json:
  *          schema:
@@ -132,6 +140,9 @@ router.get('/api/movies', validateToken, MovieController.get_all_movies);
  *              rating:
  *                type: ['null', number]
  *                example: 5
+ *              url:
+ *                type: ['null', string]
+ *                example: https://www.youtube.com/watch?v=-FZ-pPFAjYY
  *    responses:
  *      201:
  *        description: Review created
@@ -219,7 +230,7 @@ router.get('/api/movies/:id', validateToken, MovieController.get_movie_by_id);
  *    tags:
  *      - movies
  *    summary: Update movie by id
- *    description: Update movie by id. Rating can be `number` or `null`
+ *    description: Update movie by id. Rating can be `number` or `null`, URL can be `string` or `null`
  *    consumes:
  *      - application/json
  *    produces:
@@ -245,6 +256,9 @@ router.get('/api/movies/:id', validateToken, MovieController.get_movie_by_id);
  *            rating:
  *              type: ['null', number]
  *              example: 4
+ *            url:
+ *              type: ['null', string]
+ *              example: https://www.netflix.com/us/title/80002479
  *    requestBody:
  *      content:
  *        application/json:
@@ -257,6 +271,9 @@ router.get('/api/movies/:id', validateToken, MovieController.get_movie_by_id);
  *              rating:
  *                type: number
  *                example: 4
+ *              url:
+ *                type: string
+ *                example: https://www.netflix.com/us/title/80002479
  *    responses:
  *      200:
  *        description: Updated success
