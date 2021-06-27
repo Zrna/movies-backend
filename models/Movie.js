@@ -25,6 +25,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: true,
     },
+    watchAgain: {
+      type: DataTypes.BOOLEAN,
+      allowNull: true,
+    },
     createdAt: DataTypes.DATE,
     updatedAt: DataTypes.DATE,
   });
