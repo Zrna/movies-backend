@@ -35,6 +35,10 @@ const router = express.Router();
  *        type: ['null', string]
  *        description: movie url
  *        example: https://www.youtube.com/watch?v=-FZ-pPFAjYY
+ *      watchAgain:
+ *        type: boolean
+ *        description: would watch again or recommend
+ *        example: true
  *      createdAt:
  *        type: string
  *        description: date of creation
@@ -90,6 +94,7 @@ const router = express.Router();
  *                      "review": "Good Movie",
  *                      "rating": 5,
  *                      "url": "https://www.youtube.com/watch?v=Xm12NSa8jsM",
+ *                      "watchAgain": false,
  *                      "createdAt": "2021-05-07T09:05:21.000Z",
  *                      "updatedAt": "2021-05-07T09:05:21.000Z"
  *                    },
@@ -100,6 +105,7 @@ const router = express.Router();
  *                      "review": "Not bad",
  *                      "rating": null,
  *                      "url": null,
+ *                      "watchAgain": true,
  *                      "createdAt": "2021-05-07T09:06:02.000Z",
  *                      "updatedAt": "2021-05-07T09:06:02.000Z"
  *                    },
@@ -143,6 +149,9 @@ router.get('/api/movies', validateToken, MovieController.get_all_movies);
  *              url:
  *                type: ['null', string]
  *                example: https://www.youtube.com/watch?v=-FZ-pPFAjYY
+ *              watchAgain:
+ *                type: boolean
+ *                example: true
  *    responses:
  *      201:
  *        description: Review created
@@ -259,6 +268,9 @@ router.get('/api/movies/:id', validateToken, MovieController.get_movie_by_id);
  *            url:
  *              type: ['null', string]
  *              example: https://www.netflix.com/us/title/80002479
+ *            watchAgain:
+ *              type: boolean
+ *              example: true
  *    requestBody:
  *      content:
  *        application/json:
@@ -274,6 +286,9 @@ router.get('/api/movies/:id', validateToken, MovieController.get_movie_by_id);
  *              url:
  *                type: string
  *                example: https://www.netflix.com/us/title/80002479
+ *              watchAgain:
+ *                type: boolean
+ *                example: true
  *    responses:
  *      200:
  *        description: Updated success
