@@ -1,6 +1,8 @@
 const { Movie } = require('../models');
 const { getUserIdFromRequest } = require('../utils/user');
 
+const ImageController = require('./ImageController');
+
 const get_all_movies = (req, res) => {
   const userId = getUserIdFromRequest(req);
 
@@ -30,6 +32,12 @@ const create_movie_review = async (req, res) => {
   const name = reqName && reqName.trim();
   const review = reqReview && reqReview.trim();
   const url = reqUrl && reqUrl.trim();
+
+  let image = await ImageController.get_image_by_name_from_database(name);
+
+  if (!image) {
+    image = await ImageController.get_image_by_name_from_api(name);
+  }
 
   if (!name) {
     return res.status(422).json({
@@ -65,7 +73,10 @@ const create_movie_review = async (req, res) => {
     watchAgain: watchAgain ?? false,
   })
     .then(movie => {
-      return res.status(201).json(movie);
+      return res.status(201).json({
+        ...movie.dataValues,
+        image,
+      });
     })
     .catch(err => {
       return res.status(err.status || 500).json({
@@ -83,7 +94,7 @@ const get_movie_by_id = (req, res) => {
       id: movieId,
     },
   })
-    .then(movie => {
+    .then(async movie => {
       if (!movie) {
         return res.status(404).json({
           error: `Movie with id ${movieId} not found`,
@@ -96,7 +107,12 @@ const get_movie_by_id = (req, res) => {
         });
       }
 
-      return res.status(200).json(movie);
+      const image = await ImageController.get_image_by_name_from_database(movie.name);
+
+      return res.status(200).json({
+        ...movie.dataValues,
+        image,
+      });
     })
     .catch(err => {
       return res.status(err.status || 500).json({
