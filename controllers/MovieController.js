@@ -33,10 +33,10 @@ const create_movie_review = async (req, res) => {
   const review = reqReview && reqReview.trim();
   const url = reqUrl && reqUrl.trim();
 
-  let image = await ImageController.get_image_by_name_from_database(name);
+  let img = await ImageController.get_image_by_name_from_database(name);
 
-  if (!image) {
-    image = await ImageController.get_image_by_name_from_api(name);
+  if (!img) {
+    img = await ImageController.get_image_by_name_from_api(name);
   }
 
   if (!name) {
@@ -75,7 +75,7 @@ const create_movie_review = async (req, res) => {
     .then(movie => {
       return res.status(201).json({
         ...movie.dataValues,
-        image,
+        img,
       });
     })
     .catch(err => {
@@ -107,11 +107,11 @@ const get_movie_by_id = (req, res) => {
         });
       }
 
-      const image = await ImageController.get_image_by_name_from_database(movie.name);
+      const img = await ImageController.get_image_by_name_from_database(movie.name);
 
       return res.status(200).json({
         ...movie.dataValues,
-        image,
+        img,
       });
     })
     .catch(err => {
