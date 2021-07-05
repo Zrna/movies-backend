@@ -25,12 +25,17 @@ const get_image_by_name_from_api = async name => {
       const imgUrl = res.data.Poster;
       console.log('Image url:', imgUrl);
 
-      return await Image.create({
-        name,
-        img: imgUrl,
-      }).then(({ img }) => {
-        return img;
-      });
+      // `imgUrl` can also be `N/A`
+      if (imgUrl && imgUrl.startsWith('http')) {
+        return await Image.create({
+          name,
+          img: imgUrl,
+        }).then(({ img }) => {
+          return img;
+        });
+      }
+
+      return null;
     })
     .catch(err => {
       console.log('Can not get image from API', err);
