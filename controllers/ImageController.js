@@ -1,6 +1,7 @@
 const axios = require('axios');
 
 const { Image } = require('../models');
+const { getBase64 } = require('../utils/image');
 
 const get_image_by_name_from_database = name => {
   return Image.findOne({
@@ -23,13 +24,14 @@ const get_image_by_name_from_api = async name => {
     .get(`https://www.omdbapi.com/?apikey=${process.env.OMDB_API_KEY}&t=${name}`)
     .then(async res => {
       const imgUrl = res.data.Poster;
-      console.log('Image url:', imgUrl);
 
       // `imgUrl` can also be `N/A`
       if (imgUrl && imgUrl.startsWith('http')) {
+        const base64Img = await getBase64(imgUrl);
+
         return await Image.create({
           name,
-          img: imgUrl,
+          img: base64Img,
         }).then(({ img }) => {
           return img;
         });
