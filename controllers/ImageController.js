@@ -6,7 +6,7 @@ const { getBase64 } = require('../utils/image');
 const get_image_by_name_from_database = name => {
   return Image.findOne({
     where: {
-      name,
+      name: name.toLowerCase(),
     },
   })
     .then(res => {
@@ -30,7 +30,7 @@ const get_image_by_name_from_api = async name => {
         const base64Img = await getBase64(imgUrl);
 
         return await Image.create({
-          name,
+          name: name.toLowerCase(),
           img: base64Img,
         }).then(({ img }) => {
           return img;
