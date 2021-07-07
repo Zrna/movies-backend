@@ -11,9 +11,21 @@ const get_all_movies = (req, res) => {
       userId,
     },
   })
-    .then(movies => {
+    .then(async movies => {
+      const moviesWithImages = await Promise.all(
+        movies.map(async movie => {
+          const { name } = movie;
+          const img = await ImageController.get_image_by_name_from_database(name);
+
+          return {
+            ...movie.dataValues,
+            img,
+          };
+        })
+      );
+
       return res.status(200).json({
-        data: movies,
+        data: moviesWithImages,
         totalRecords: movies.length,
       });
     })
