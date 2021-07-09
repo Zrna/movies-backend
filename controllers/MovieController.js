@@ -10,6 +10,7 @@ const get_all_movies = (req, res) => {
     where: {
       userId,
     },
+    order: [['updatedAt', 'DESC']],
   })
     .then(async movies => {
       const moviesWithImages = await Promise.all(
