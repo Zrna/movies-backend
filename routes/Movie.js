@@ -1,9 +1,11 @@
 const express = require('express');
 
 const MovieController = require('../controllers/MovieController');
-const { validateToken } = require('../utils/token');
+const { validateToken } = require('../middlewares/token');
 
 const router = express.Router();
+
+router.use(validateToken);
 
 /**
  * @swagger
@@ -126,7 +128,7 @@ const router = express.Router();
  *            schema:
  *              $ref: '#/definitions/MovieServerError'
  */
-router.get('/api/movies', validateToken, MovieController.get_all_movies);
+router.get('/api/movies', MovieController.get_all_movies);
 
 /**
  * @swagger
@@ -192,7 +194,7 @@ router.get('/api/movies', validateToken, MovieController.get_all_movies);
  *            schema:
  *              $ref: '#/definitions/MovieServerError'
  */
-router.post('/api/movies', validateToken, MovieController.create_movie_review);
+router.post('/api/movies', MovieController.create_movie_review);
 
 /**
  * @swagger
@@ -236,7 +238,7 @@ router.post('/api/movies', validateToken, MovieController.create_movie_review);
  *            schema:
  *              $ref: '#/definitions/MovieServerError'
  */
-router.get('/api/movies/:id', validateToken, MovieController.get_movie_by_id);
+router.get('/api/movies/:id', MovieController.get_movie_by_id);
 
 /**
  * @swagger
@@ -321,7 +323,7 @@ router.get('/api/movies/:id', validateToken, MovieController.get_movie_by_id);
  *           schema:
  *             $ref: '#/definitions/MovieServerError'
  */
-router.put('/api/movies/:id', validateToken, MovieController.update_movie_by_id);
+router.put('/api/movies/:id', MovieController.update_movie_by_id);
 
 /**
  * @swagger
@@ -349,6 +351,6 @@ router.put('/api/movies/:id', validateToken, MovieController.update_movie_by_id)
  *           schema:
  *             $ref: '#/definitions/MovieServerError'
  */
-router.delete('/api/movies/:id', validateToken, MovieController.delete_movie_by_id);
+router.delete('/api/movies/:id', MovieController.delete_movie_by_id);
 
 module.exports = router;

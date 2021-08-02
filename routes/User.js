@@ -1,9 +1,11 @@
 const express = require('express');
 
 const UserController = require('../controllers/UserController');
-const { validateToken } = require('../utils/token');
+const { validateToken } = require('../middlewares/token');
 
 const router = express.Router();
+
+router.use(validateToken);
 
 /**
  * @swagger
@@ -50,7 +52,7 @@ const router = express.Router();
  *                  type: string
  *                  example: Access token is missing
  */
-router.get('/api/account', validateToken, UserController.get_account);
+router.get('/api/account', UserController.get_account);
 
 /**
  * @swagger
@@ -120,7 +122,7 @@ router.get('/api/account', validateToken, UserController.get_account);
  *                  type: string
  *                  example: Something went wrong with updating the account data.
  */
-router.put('/api/account', validateToken, UserController.update_account);
+router.put('/api/account', UserController.update_account);
 
 /**
  * @swagger
@@ -154,6 +156,6 @@ router.put('/api/account', validateToken, UserController.update_account);
  *                  type: string
  *                  example: Something went wrong with deleting account with id {userId}
  */
-router.delete('/api/account', validateToken, UserController.delete_account);
+router.delete('/api/account', UserController.delete_account);
 
 module.exports = router;
