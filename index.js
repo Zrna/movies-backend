@@ -10,7 +10,7 @@ const authRoutes = require('./routes/Auth');
 const userRoutes = require('./routes/User');
 const movieRoutes = require('./routes/Movie');
 
-const PORT = 5000;
+const PORT = 5001;
 const app = express();
 
 db.sequelize

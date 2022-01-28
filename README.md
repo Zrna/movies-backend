@@ -21,7 +21,7 @@ The created migration will appear in the `migrations` folder.
 
 ## Swagger
 
-Swagger is running on [http://localhost:5000/api-docs](http://localhost:5000/api-docs)
+Swagger is running on [http://localhost:5001/api-docs](http://localhost:5001/api-docs)
 
 # Frontend part
 
