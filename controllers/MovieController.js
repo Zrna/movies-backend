@@ -110,7 +110,7 @@ const get_movie_by_id = (req, res) => {
     .then(async movie => {
       if (!movie) {
         return res.status(404).json({
-          error: `Movie with id ${movieId} not found`,
+          error: `Review with id ${movieId} not found`,
         });
       }
 
@@ -171,7 +171,7 @@ const update_movie_by_id = async (req, res) => {
         .then(movie => {
           if (!movie) {
             return res.status(404).json({
-              error: `Movie with id ${movieId} not found`,
+              error: `Review with id ${movieId} not found`,
             });
           }
 
@@ -185,7 +185,7 @@ const update_movie_by_id = async (req, res) => {
         })
         .catch(err => {
           return res.status(err.status || 404).json({
-            error: err.message || 'Movie Not Found',
+            error: err.message || 'Review Not Found',
           });
         });
     })
@@ -211,7 +211,7 @@ const delete_movie_by_id = (req, res) => {
     })
     .catch(err => {
       return res.status(err.status || 500).json({
-        error: err.message || 'Something went wrong with deleting the movie',
+        error: err.message || 'Something went wrong with deleting the review',
       });
     });
 };
