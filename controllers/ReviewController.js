@@ -169,7 +169,7 @@ const update_review_by_id = async (req, res) => {
           id: reviewId,
         },
       })
-        .then(review => {
+        .then(async review => {
           if (!review) {
             return res.status(404).json({
               error: `Review with id ${reviewId} not found`,
@@ -182,7 +182,9 @@ const update_review_by_id = async (req, res) => {
             });
           }
 
-          return res.status(200).json(review);
+          const img = await ImageController.get_image_by_name_from_database(review.name);
+
+          return res.status(200).json({ ...review.dataValues, img });
         })
         .catch(err => {
           return res.status(err.status || 404).json({
