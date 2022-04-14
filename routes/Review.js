@@ -198,7 +198,7 @@ router.post('/api/reviews', ReviewController.create_review);
 
 /**
  * @swagger
- * /api/reviews/:id:
+ * /api/reviews/{id}:
  *  get:
  *    tags:
  *      - reviews
@@ -242,7 +242,7 @@ router.get('/api/reviews/:id', ReviewController.get_review_by_id);
 
 /**
  * @swagger
- * /api/reviews/:id:
+ * /api/reviews/{id}:
  *  put:
  *    tags:
  *      - reviews
@@ -327,7 +327,7 @@ router.put('/api/reviews/:id', ReviewController.update_review_by_id);
 
 /**
  * @swagger
- * /api/reviews/:id:
+ * /api/reviews/{id}:
  *  delete:
  *    tags:
  *      - reviews
