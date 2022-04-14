@@ -1,4 +1,4 @@
-const { Movie } = require('../models');
+const { Review } = require('../models');
 const { getUserIdFromRequest } = require('../utils/user');
 
 const ImageController = require('./ImageController');
@@ -6,7 +6,7 @@ const ImageController = require('./ImageController');
 const get_all_reviews = (req, res) => {
   const userId = getUserIdFromRequest(req);
 
-  Movie.findAll({
+  Review.findAll({
     where: {
       userId,
     },
@@ -64,7 +64,7 @@ const create_review = async (req, res) => {
     });
   }
 
-  const reviewExist = await Movie.findOne({
+  const reviewExist = await Review.findOne({
     where: {
       userId,
       name,
@@ -77,7 +77,7 @@ const create_review = async (req, res) => {
     });
   }
 
-  Movie.create({
+  Review.create({
     name,
     rating,
     review,
@@ -102,7 +102,7 @@ const get_review_by_id = (req, res) => {
   const userId = getUserIdFromRequest(req);
   const reviewId = req.params.id;
 
-  Movie.findOne({
+  Review.findOne({
     where: {
       id: reviewId,
     },
@@ -148,7 +148,7 @@ const update_review_by_id = async (req, res) => {
     });
   }
 
-  Movie.update(
+  Review.update(
     {
       rating,
       review,
@@ -163,7 +163,7 @@ const update_review_by_id = async (req, res) => {
     }
   )
     .then(() => {
-      Movie.findOne({
+      Review.findOne({
         where: {
           id: reviewId,
         },
@@ -200,7 +200,7 @@ const delete_review_by_id = (req, res) => {
   const userId = getUserIdFromRequest(req);
   const reviewId = req.params.id;
 
-  Movie.destroy({
+  Review.destroy({
     where: {
       id: reviewId,
       userId,

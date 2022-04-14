@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  const Movie = sequelize.define('Movie', {
+  const Review = sequelize.define('Review', {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
@@ -33,5 +33,5 @@ module.exports = (sequelize, DataTypes) => {
     updatedAt: DataTypes.DATE,
   });
 
-  return Movie;
+  return Review;
 };

@@ -1,4 +1,4 @@
-const { User, Movie } = require('../models');
+const { User, Review } = require('../models');
 const { getUserIdFromRequest } = require('../utils/user');
 
 const get_account = async (req, res) => {
@@ -90,7 +90,7 @@ const delete_account = (req, res) => {
     },
   })
     .then(() => {
-      Movie.destroy({
+      Review.destroy({
         where: {
           userId,
         },
