@@ -3,7 +3,7 @@ const { getUserIdFromRequest } = require('../utils/user');
 
 const ImageController = require('./ImageController');
 
-const get_all_movies = (req, res) => {
+const get_all_reviews = (req, res) => {
   const userId = getUserIdFromRequest(req);
 
   Movie.findAll({
@@ -12,22 +12,22 @@ const get_all_movies = (req, res) => {
     },
     order: [['updatedAt', 'DESC']],
   })
-    .then(async movies => {
-      const moviesWithImages = await Promise.all(
-        movies.map(async movie => {
-          const { name } = movie;
+    .then(async reviews => {
+      const reviewsWithImages = await Promise.all(
+        reviews.map(async review => {
+          const { name } = review;
           const img = await ImageController.get_image_by_name_from_database(name);
 
           return {
-            ...movie.dataValues,
+            ...review.dataValues,
             img,
           };
         })
       );
 
       return res.status(200).json({
-        data: moviesWithImages,
-        totalRecords: movies.length,
+        data: reviewsWithImages,
+        totalRecords: reviews.length,
       });
     })
     .catch(err => {
@@ -37,7 +37,7 @@ const get_all_movies = (req, res) => {
     });
 };
 
-const create_movie_review = async (req, res) => {
+const create_review = async (req, res) => {
   const userId = getUserIdFromRequest(req);
 
   const { name: reqName, rating, review: reqReview, url: reqUrl, watchAgain } = req.body;
@@ -64,14 +64,14 @@ const create_movie_review = async (req, res) => {
     });
   }
 
-  const movieExist = await Movie.findOne({
+  const reviewExist = await Movie.findOne({
     where: {
       userId,
       name,
     },
   });
 
-  if (movieExist) {
+  if (reviewExist) {
     return res.status(409).json({
       error: `Review for '${name}' already exists`,
     });
@@ -85,9 +85,9 @@ const create_movie_review = async (req, res) => {
     userId,
     watchAgain: watchAgain ?? false,
   })
-    .then(movie => {
+    .then(review => {
       return res.status(201).json({
-        ...movie.dataValues,
+        ...review.dataValues,
         img,
       });
     })
@@ -98,32 +98,32 @@ const create_movie_review = async (req, res) => {
     });
 };
 
-const get_movie_by_id = (req, res) => {
+const get_review_by_id = (req, res) => {
   const userId = getUserIdFromRequest(req);
-  const movieId = req.params.id;
+  const reviewId = req.params.id;
 
   Movie.findOne({
     where: {
-      id: movieId,
+      id: reviewId,
     },
   })
-    .then(async movie => {
-      if (!movie) {
+    .then(async review => {
+      if (!review) {
         return res.status(404).json({
-          error: `Review with id ${movieId} not found`,
+          error: `Review with id ${reviewId} not found`,
         });
       }
 
-      if (movie.userId !== userId) {
+      if (review.userId !== userId) {
         return res.status(403).json({
           error: 'Forbidden',
         });
       }
 
-      const img = await ImageController.get_image_by_name_from_database(movie.name);
+      const img = await ImageController.get_image_by_name_from_database(review.name);
 
       return res.status(200).json({
-        ...movie.dataValues,
+        ...review.dataValues,
         img,
       });
     })
@@ -134,9 +134,9 @@ const get_movie_by_id = (req, res) => {
     });
 };
 
-const update_movie_by_id = async (req, res) => {
+const update_review_by_id = async (req, res) => {
   const userId = getUserIdFromRequest(req);
-  const movieId = req.params.id;
+  const reviewId = req.params.id;
 
   const { rating, review: reqReview, url: reqUrl, watchAgain } = req.body;
   const review = reqReview && reqReview.trim();
@@ -158,30 +158,30 @@ const update_movie_by_id = async (req, res) => {
     {
       where: {
         userId,
-        id: movieId,
+        id: reviewId,
       },
     }
   )
     .then(() => {
       Movie.findOne({
         where: {
-          id: movieId,
+          id: reviewId,
         },
       })
-        .then(movie => {
-          if (!movie) {
+        .then(review => {
+          if (!review) {
             return res.status(404).json({
-              error: `Review with id ${movieId} not found`,
+              error: `Review with id ${reviewId} not found`,
             });
           }
 
-          if (movie.userId !== userId) {
+          if (review.userId !== userId) {
             return res.status(403).json({
               error: 'Forbidden',
             });
           }
 
-          return res.status(200).json(movie);
+          return res.status(200).json(review);
         })
         .catch(err => {
           return res.status(err.status || 404).json({
@@ -196,13 +196,13 @@ const update_movie_by_id = async (req, res) => {
     });
 };
 
-const delete_movie_by_id = (req, res) => {
+const delete_review_by_id = (req, res) => {
   const userId = getUserIdFromRequest(req);
-  const movieId = req.params.id;
+  const reviewId = req.params.id;
 
   Movie.destroy({
     where: {
-      id: movieId,
+      id: reviewId,
       userId,
     },
   })
@@ -217,9 +217,9 @@ const delete_movie_by_id = (req, res) => {
 };
 
 module.exports = {
-  create_movie_review,
-  delete_movie_by_id,
-  get_all_movies,
-  get_movie_by_id,
-  update_movie_by_id,
+  create_review,
+  delete_review_by_id,
+  get_all_reviews,
+  get_review_by_id,
+  update_review_by_id,
 };
