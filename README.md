@@ -1,4 +1,4 @@
-# Movies backend
+# Reviews backend
 
 ## Instalation
 
@@ -25,4 +25,6 @@ Swagger is running on [http://localhost:5001/api-docs](http://localhost:5001/api
 
 # Frontend part
 
-https://github.com/Zrna/movies-web
+After installing the backend part go and install the [frontend part](https://github.com/Zrna/reviews-web) of the application for full experience.
+
+https://github.com/Zrna/reviews-web
