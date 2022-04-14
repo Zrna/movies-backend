@@ -105,6 +105,7 @@ const get_review_by_id = (req, res) => {
   Review.findOne({
     where: {
       id: reviewId,
+      userId,
     },
   })
     .then(async review => {
