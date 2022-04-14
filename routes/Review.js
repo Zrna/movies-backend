@@ -128,7 +128,7 @@ router.use(validateToken);
  *            schema:
  *              $ref: '#/definitions/ReviewServerError'
  */
-router.get('/api/reviews', MovieController.get_all_movies);
+router.get('/api/reviews', MovieController.get_all_reviews);
 
 /**
  * @swagger
@@ -194,7 +194,7 @@ router.get('/api/reviews', MovieController.get_all_movies);
  *            schema:
  *              $ref: '#/definitions/ReviewServerError'
  */
-router.post('/api/reviews', MovieController.create_movie_review);
+router.post('/api/reviews', MovieController.create_review);
 
 /**
  * @swagger
@@ -238,7 +238,7 @@ router.post('/api/reviews', MovieController.create_movie_review);
  *            schema:
  *              $ref: '#/definitions/ReviewServerError'
  */
-router.get('/api/reviews/:id', MovieController.get_movie_by_id);
+router.get('/api/reviews/:id', MovieController.get_review_by_id);
 
 /**
  * @swagger
@@ -323,7 +323,7 @@ router.get('/api/reviews/:id', MovieController.get_movie_by_id);
  *           schema:
  *             $ref: '#/definitions/ReviewServerError'
  */
-router.put('/api/reviews/:id', MovieController.update_movie_by_id);
+router.put('/api/reviews/:id', MovieController.update_review_by_id);
 
 /**
  * @swagger
@@ -351,6 +351,6 @@ router.put('/api/reviews/:id', MovieController.update_movie_by_id);
  *           schema:
  *             $ref: '#/definitions/ReviewServerError'
  */
-router.delete('/api/reviews/:id', MovieController.delete_movie_by_id);
+router.delete('/api/reviews/:id', MovieController.delete_review_by_id);
 
 module.exports = router;

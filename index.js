@@ -8,7 +8,7 @@ const swaggerOptions = require('./config/swaggerOptions');
 const db = require('./models');
 const authRoutes = require('./routes/Auth');
 const userRoutes = require('./routes/User');
-const movieRoutes = require('./routes/Movie');
+const reviewRoutes = require('./routes/Review');
 
 const PORT = 5001;
 const app = express();
@@ -33,7 +33,7 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use(authRoutes);
 app.use(userRoutes);
-app.use(movieRoutes);
+app.use(reviewRoutes);
 
 app.use('*', (_, res) => {
   return res.status(404).send({
