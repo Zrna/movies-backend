@@ -93,7 +93,7 @@ const auth_login = async (req, res) => {
   bcrypt.compare(password, dbPassword).then(match => {
     if (!match) {
       return res.status(401).json({
-        error: 'Wrong username and password combination',
+        error: 'Wrong email and password combination',
       });
     } else {
       const accessToken = createAccessToken(user);
