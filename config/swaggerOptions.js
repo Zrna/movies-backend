@@ -2,8 +2,8 @@ const swaggerOptions = {
   swaggerDefinition: {
     openapi: '3.0.0',
     info: {
-      title: 'Movies API',
-      version: '1.0.0',
+      title: 'Reviews API',
+      version: '1.1.0',
     },
   },
   apis: ['./routes/*.js'],
