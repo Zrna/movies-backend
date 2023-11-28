@@ -2,7 +2,7 @@
 
 ## Instalation
 
-1. Create `reviews_app` database
+1. Create `moovier_app` database
 2. Create `.env` file - see `example.env` in root of the project
    - insert your database credentials in `.env` file
 3. Run `npm install` to install necessary npm packages
