@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     },
     img: {
-      type: DataTypes.TEXT,
+      type: DataTypes.TEXT({ length: 'long' }),
       allowNull: false,
     },
     createdAt: DataTypes.DATE,

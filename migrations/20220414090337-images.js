@@ -13,7 +13,7 @@ module.exports = {
         allowNull: false,
       },
       img: {
-        type: Sequelize.TEXT,
+        type: Sequelize.TEXT({ length: 'long' }),
         allowNull: false,
       },
       createdAt: Sequelize.DATE,
