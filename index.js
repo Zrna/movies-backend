@@ -9,6 +9,7 @@ const db = require('./models');
 const authRoutes = require('./routes/Auth');
 const userRoutes = require('./routes/User');
 const reviewRoutes = require('./routes/Review');
+const recommendationRoutes = require('./routes/Recommendation');
 
 const PORT = 5001;
 const app = express();
@@ -34,6 +35,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(authRoutes);
 app.use(userRoutes);
 app.use(reviewRoutes);
+app.use(recommendationRoutes);
 
 app.use('*', (_, res) => {
   return res.status(404).send({
