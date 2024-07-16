@@ -108,7 +108,14 @@ const auth_login = async (req, res) => {
   });
 };
 
+const auth_logout = async (req, res) => {
+  res.clearCookie('access-token');
+
+  return res.status(200).json('Logged out successfully');
+};
+
 module.exports = {
   auth_login,
   auth_register,
+  auth_logout,
 };

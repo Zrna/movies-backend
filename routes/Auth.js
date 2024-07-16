@@ -127,4 +127,16 @@ router.post('/register', AuthController.auth_register);
  */
 router.post('/login', AuthController.auth_login);
 
+/**
+ *
+ * @swagger
+ * /logout:
+ *  post:
+ *    tags:
+ *      - auth
+ *    summary: Logout user
+ *    description: Logout user
+ */
+router.post('/logout', AuthController.auth_logout);
+
 module.exports = router;
