@@ -64,7 +64,10 @@ const auth_register = async (req, res) => {
         // httpOnly: true, // if active, can't read cookie from the frontend
       });
 
-      return res.status(201).json('User registered');
+      return res.status(201).json({
+        accessToken,
+        message: 'User registered',
+      });
     })
     .catch(error => {
       if (error) {
