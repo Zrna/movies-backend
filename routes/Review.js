@@ -132,6 +132,63 @@ router.get('/api/reviews', ReviewController.get_all_reviews);
 
 /**
  * @swagger
+ * /api/reviews/latest:
+ *  get:
+ *    tags:
+ *      - reviews
+ *    summary: Get latest user's reviews
+ *    description: Get latest 5 user's reviews
+ *    responses:
+ *      200:
+ *        description: User's reviews
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                data:
+ *                  type: array
+ *                  items: object
+ *                  example: [
+ *                    {
+ *                      "id": 1,
+ *                      "img": null,
+ *                      "userId": 1,
+ *                      "name": "Bad Boys",
+ *                      "review": "Good Movie",
+ *                      "rating": 5,
+ *                      "url": "https://www.youtube.com/watch?v=Xm12NSa8jsM",
+ *                      "watchAgain": false,
+ *                      "createdAt": "2021-05-07T09:05:21.000Z",
+ *                      "updatedAt": "2021-05-07T09:05:21.000Z"
+ *                    },
+ *                    {
+ *                      "id": 2,
+ *                      "img": null,
+ *                      "userId": 1,
+ *                      "name": "Batman",
+ *                      "review": "Not bad",
+ *                      "rating": null,
+ *                      "url": null,
+ *                      "watchAgain": true,
+ *                      "createdAt": "2021-05-07T09:06:02.000Z",
+ *                      "updatedAt": "2021-05-07T09:06:02.000Z"
+ *                    },
+ *                  ]
+ *                totalRecords:
+ *                  type: number
+ *                  example: 2
+ *      500:
+ *        description: Some error
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/definitions/ReviewServerError'
+ */
+router.get('/api/reviews/latest', ReviewController.get_latest_reviews);
+
+/**
+ * @swagger
  * /api/reviews:
  *  post:
  *    tags:
