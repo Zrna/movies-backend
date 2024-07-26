@@ -89,7 +89,7 @@ router.use(validateToken);
  *            schema:
  *              type: object
  *              properties:
- *                reviews:
+ *                data:
  *                  type: array
  *                  items: object
  *                  example: [
