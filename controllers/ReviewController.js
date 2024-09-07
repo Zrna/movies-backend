@@ -1,5 +1,6 @@
 const { Review } = require('../models');
 const { getUserIdFromRequest } = require('../utils/user');
+const { getPlatformOrMediaUrl } = require('../utils/platforms');
 
 const ImageController = require('./ImageController');
 
@@ -79,7 +80,7 @@ const create_review = async (req, res) => {
 
   const name = reqName && reqName.trim();
   const review = reqReview && reqReview.trim();
-  const url = reqUrl && reqUrl.trim();
+  const url = reqUrl && reqUrl.trim() && getPlatformOrMediaUrl(reqUrl);
 
   let img = await ImageController.get_image_by_name_from_database(name);
 
@@ -176,7 +177,7 @@ const update_review_by_id = async (req, res) => {
 
   const { rating, review: reqReview, url: reqUrl, watchAgain } = req.body;
   const review = reqReview && reqReview.trim();
-  const url = reqUrl && reqUrl.trim();
+  const url = reqUrl && reqUrl.trim() && getPlatformOrMediaUrl(reqUrl);
 
   if (!review) {
     return res.status(422).json({
