@@ -14,6 +14,8 @@ const platformUrls = {
   slingtv: 'https://www.sling.com/',
   showtime: 'https://www.showtime.com/',
   starz: 'https://www.starz.com/',
+  youtube: 'https://www.youtube.com/',
+  spotify: 'https://www.spotify.com/',
 };
 
 const getPlatformOrMediaUrl = value => {
