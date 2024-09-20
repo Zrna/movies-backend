@@ -189,6 +189,95 @@ router.get('/api/reviews/latest', ReviewController.get_latest_reviews);
 
 /**
  * @swagger
+ * /api/reviews/grouped-by-ratings:
+ *  get:
+ *    tags:
+ *      - reviews
+ *    summary: Get reviews grouped by ratings
+ *    description: Get reviews grouped by ratings (5, 4, 3, 2, 1, null). Pass `count` in body to get specific number of reviews. Default is 10
+ *    responses:
+ *      200:
+ *        description: User's reviews
+ *        content:
+ *          application/json:
+ *            schema:
+ *               type: array
+ *               items: object
+ *               example: [
+ *                {
+ *                  "rating": 5,
+ *                  "reviews": [
+ *                   {
+ *                    "id": 2,
+ *                    "userId": 1,
+ *                    "name": "Billions",
+ *                    "review": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+ *                    "rating": 5,
+ *                    "url": "https://www.hbomax.com/hr/en/series/urn:hbo:series:GYSYN2AYfO8LCwwEAAAId",
+ *                    "watchAgain": true,
+ *                    "createdAt": "2023-11-28T11:07:37.000Z",
+ *                    "updatedAt": "2024-07-26T14:27:03.000Z",
+ *                    "img": "img_value"
+ *                   },
+ *                   {
+ *                    "id": 13,
+ *                    "userId": 1,
+ *                    "name": "Peaky Blinders",
+ *                    "review": "Iconic serie!!\n\nI watched it 3 times, and I can watch it more 30 times :D\nDefinitely a recommendation!!",
+ *                    "rating": 5,
+ *                    "url": "https://www.netflix.com/title/80002479",
+ *                    "watchAgain": true,
+ *                    "createdAt": "2023-12-16T13:09:46.000Z",
+ *                    "updatedAt": "2023-12-17T11:49:41.000Z",
+ *                    "img": "img_value"
+ *                   }
+ *                 ]
+ *                },
+ *                {
+ *                  "rating": 4,
+ *                  "reviews": []
+ *                },
+ *                {
+ *                  "rating": 3,
+ *                  "reviews": []
+ *                },
+ *                {
+ *                  "rating": 2,
+ *                  "reviews": []
+ *                },
+ *                {
+ *                  "rating": 1,
+ *                  "reviews": [
+ *                   {
+ *                    "id": 14,
+ *                    "userId": 1,
+ *                    "name": "blablablabla1123",
+ *                    "review": "blablabla",
+ *                    "rating": 1,
+ *                    "url": null,
+ *                    "watchAgain": false,
+ *                    "createdAt": "2023-12-17T10:45:23.000Z",
+ *                    "updatedAt": "2023-12-17T11:48:46.000Z",
+ *                    "img": null
+ *                   }
+ *                 ]
+ *                },
+ *                {
+ *                  "rating": null,
+ *                  "reviews": []
+ *                }
+ *               ]
+ *      500:
+ *        description: Some error
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/definitions/ReviewServerError'
+ */
+router.get('/api/reviews/grouped-by-ratings', ReviewController.get_reviews_grouped_by_ratings);
+
+/**
+ * @swagger
  * /api/reviews:
  *  post:
  *    tags:

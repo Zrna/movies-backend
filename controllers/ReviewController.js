@@ -73,6 +73,50 @@ const get_latest_reviews = (req, res) => {
     });
 };
 
+const get_reviews_grouped_by_ratings = async (req, res) => {
+  const userId = getUserIdFromRequest(req);
+  const count = req.body.count || 10;
+  const ratings = [5, 4, 3, 2, 1, null];
+
+  try {
+    const groupedReviews = await Promise.all(
+      ratings.map(async rating => {
+        const reviews = await Review.findAll({
+          where: {
+            userId,
+            rating,
+          },
+          limit: count,
+          order: [['rating', 'DESC']],
+        });
+
+        const reviewsWithImages = await Promise.all(
+          reviews.map(async review => {
+            const { name } = review;
+            const img = await ImageController.get_image_by_name_from_database(name);
+
+            return {
+              ...review.dataValues,
+              img,
+            };
+          })
+        );
+
+        return {
+          rating,
+          reviews: reviewsWithImages,
+        };
+      })
+    );
+
+    return res.status(200).json(groupedReviews);
+  } catch (err) {
+    return res.status(err.status || 500).json({
+      error: err.message || 'Server Error',
+    });
+  }
+};
+
 const create_review = async (req, res) => {
   const userId = getUserIdFromRequest(req);
 
@@ -262,4 +306,5 @@ module.exports = {
   get_review_by_id,
   update_review_by_id,
   get_latest_reviews,
+  get_reviews_grouped_by_ratings,
 };
