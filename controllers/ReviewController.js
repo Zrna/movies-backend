@@ -76,7 +76,28 @@ const get_latest_reviews = (req, res) => {
 const get_reviews_grouped_by_ratings = async (req, res) => {
   const userId = getUserIdFromRequest(req);
   const count = req.body.count || 10;
-  const ratings = [5, 4, 3, 2, 1, null];
+  const rating = req.params.rating ? parseInt(req.params.rating) : null;
+  let ratings;
+
+  if (isNaN(rating)) {
+    return res.status(422).json({
+      error: 'Rating must be a number',
+    });
+  }
+
+  if (typeof rating === 'number') {
+    if (rating < 0 || rating > 5) {
+      return res.status(422).json({
+        error: 'Rating must be between 0 and 5',
+      });
+    } else if (rating === 0) {
+      ratings = [null];
+    } else {
+      ratings = [rating];
+    }
+  } else {
+    ratings = [5, 4, 3, 2, 1, null];
+  }
 
   try {
     const groupedReviews = await Promise.all(

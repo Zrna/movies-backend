@@ -278,6 +278,79 @@ router.get('/api/reviews/grouped-by-ratings', ReviewController.get_reviews_group
 
 /**
  * @swagger
+ * /api/reviews/grouped-by-ratings/:rating:
+ *  get:
+ *    tags:
+ *      - reviews
+ *    summary: Get reviews grouped by provided rating
+ *    description: Get reviews grouped by provided rating (5, 4, 3, 2, 1, 0). Pass `count` in body to get specific number of reviews. Default is 10
+ *    parameters:
+ *      - in: path
+ *        name: ratng
+ *        schema:
+ *          type: integer
+ *        description: If `0` (zero) is passed, it will return reviews with no rating (`null` value). If value that is not a number is passed, it will return error.
+ *        example: 5
+ *    responses:
+ *      200:
+ *        description: User's reviews with provided rating
+ *        content:
+ *          application/json:
+ *            schema:
+ *               type: array
+ *               items: object
+ *               example: [
+ *                {
+ *                  "rating": 5,
+ *                  "reviews": [
+ *                   {
+ *                    "id": 2,
+ *                    "userId": 1,
+ *                    "name": "Billions",
+ *                    "review": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+ *                    "rating": 5,
+ *                    "url": "https://www.hbomax.com/hr/en/series/urn:hbo:series:GYSYN2AYfO8LCwwEAAAId",
+ *                    "watchAgain": true,
+ *                    "createdAt": "2023-11-28T11:07:37.000Z",
+ *                    "updatedAt": "2024-07-26T14:27:03.000Z",
+ *                    "img": "img_value"
+ *                   },
+ *                   {
+ *                    "id": 13,
+ *                    "userId": 1,
+ *                    "name": "Peaky Blinders",
+ *                    "review": "Iconic serie!!\n\nI watched it 3 times, and I can watch it more 30 times :D\nDefinitely a recommendation!!",
+ *                    "rating": 5,
+ *                    "url": "https://www.netflix.com/title/80002479",
+ *                    "watchAgain": true,
+ *                    "createdAt": "2023-12-16T13:09:46.000Z",
+ *                    "updatedAt": "2023-12-17T11:49:41.000Z",
+ *                    "img": "img_value"
+ *                   }
+ *                 ]
+ *                }
+ *               ]
+ *      422:
+ *        description: Message `Rating must be a number` or `Rating must be between 0 and 5`
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                error:
+ *                  type: string
+ *                  example: Rating must be between 0 and 5
+ *      500:
+ *        description: Some error
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/definitions/ReviewServerError'
+ */
+router.get('/api/reviews/grouped-by-ratings/:rating', ReviewController.get_reviews_grouped_by_ratings);
+
+/**
+ * @swagger
  * /api/reviews:
  *  post:
  *    tags:
