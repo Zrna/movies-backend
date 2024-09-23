@@ -45,7 +45,7 @@ const get_latest_reviews = (req, res) => {
     where: {
       userId,
     },
-    order: [['updatedAt', 'DESC']],
+    order: [['createdAt', 'DESC']],
     limit: 5,
   })
     .then(async reviews => {
