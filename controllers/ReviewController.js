@@ -108,7 +108,10 @@ const get_reviews_grouped_by_ratings = async (req, res) => {
             rating,
           },
           limit: count,
-          order: [['rating', 'DESC']],
+          order: [
+            ['rating', 'DESC'],
+            ['updatedAt', 'DESC'],
+          ],
         });
 
         const reviewsWithImages = await Promise.all(
