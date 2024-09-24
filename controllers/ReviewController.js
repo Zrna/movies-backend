@@ -75,13 +75,19 @@ const get_latest_reviews = (req, res) => {
 
 const get_reviews_grouped_by_ratings = async (req, res) => {
   const userId = getUserIdFromRequest(req);
-  const count = req.body.count || 10;
+  const count = req.query.count ? parseInt(req.query.count) : 10;
   const rating = req.params.rating ? parseInt(req.params.rating) : null;
   let ratings;
 
   if (isNaN(rating)) {
     return res.status(422).json({
       error: 'Rating must be a number',
+    });
+  }
+
+  if (isNaN(count)) {
+    return res.status(422).json({
+      error: 'Count must be a number',
     });
   }
 
@@ -121,7 +127,7 @@ const get_reviews_grouped_by_ratings = async (req, res) => {
 
             return {
               ...review.dataValues,
-              img,
+              img: '',
             };
           })
         );

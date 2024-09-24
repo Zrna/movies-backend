@@ -194,7 +194,7 @@ router.get('/api/reviews/latest', ReviewController.get_latest_reviews);
  *    tags:
  *      - reviews
  *    summary: Get reviews grouped by ratings
- *    description: Get reviews grouped by ratings (5, 4, 3, 2, 1, null). Pass `count` in body to get specific number of reviews. Default is 10
+ *    description: Get reviews grouped by ratings (5, 4, 3, 2, 1, null). Pass the `count` in query (e.g. `/grouped-by-ratings?count=20`) to get specific number of reviews. Default is 10
  *    responses:
  *      200:
  *        description: User's reviews
@@ -283,7 +283,7 @@ router.get('/api/reviews/grouped-by-ratings', ReviewController.get_reviews_group
  *    tags:
  *      - reviews
  *    summary: Get reviews grouped by provided rating
- *    description: Get reviews grouped by provided rating (5, 4, 3, 2, 1, 0). Pass `count` in body to get specific number of reviews. Default is 10
+ *    description: Get reviews grouped by provided rating (5, 4, 3, 2, 1, 0). Pass the `count` in query (e.g. `/grouped-by-ratings/5?count=20`) to get  specific number of reviews. Default is 10
  *    parameters:
  *      - in: path
  *        name: ratng
