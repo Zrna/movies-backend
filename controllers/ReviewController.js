@@ -127,7 +127,7 @@ const get_reviews_grouped_by_ratings = async (req, res) => {
 
             return {
               ...review.dataValues,
-              img: '',
+              img,
             };
           })
         );
