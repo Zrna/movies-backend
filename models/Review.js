@@ -8,6 +8,13 @@ module.exports = (sequelize, DataTypes) => {
     userId: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      // defines the foreign key / relation
+      references: {
+        model: 'users', // Name of the target table
+        key: 'id', // Key in the target table that the foreign key references
+      },
+      onUpdate: 'CASCADE',
+      onDelete: 'CASCADE',
     },
     name: {
       type: DataTypes.STRING,
@@ -32,6 +39,13 @@ module.exports = (sequelize, DataTypes) => {
     createdAt: DataTypes.DATE,
     updatedAt: DataTypes.DATE,
   });
+
+  Review.associate = models => {
+    Review.belongsTo(models.User, {
+      foreignKey: 'userId',
+      as: 'user',
+    });
+  };
 
   return Review;
 };
