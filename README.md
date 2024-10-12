@@ -3,7 +3,7 @@
 ## Instalation
 
 1. Create `moovier_app` database
-2. Create `.env` file - see `example.env` in root of the project
+2. Create `.env` file - see `.env.example` in root of the project
    - insert your database credentials in `.env` file
 3. Run `npm install` to install necessary npm packages
 4. Run `npm run migration:run` to run db migrations
