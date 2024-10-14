@@ -17,5 +17,13 @@ module.exports = (sequelize, DataTypes) => {
     updatedAt: DataTypes.DATE,
   });
 
+  Image.associate = models => {
+    Image.hasMany(models.Review, {
+      foreignKey: 'imageId',
+      sourceKey: 'id',
+      as: 'reviews',
+    });
+  };
+
   return Image;
 };

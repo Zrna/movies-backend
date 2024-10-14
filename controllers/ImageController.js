@@ -10,7 +10,7 @@ const get_image_by_name_from_database = name => {
     },
   })
     .then(res => {
-      return res?.dataValues?.img ?? null;
+      return res;
     })
     .catch(err => {
       console.log('Can not get image from Image table', err);
@@ -32,8 +32,8 @@ const get_image_by_name_from_api = async name => {
         return await Image.create({
           name: name.toLowerCase(),
           img: base64Img,
-        }).then(({ img }) => {
-          return img;
+        }).then(res => {
+          return res;
         });
       }
 

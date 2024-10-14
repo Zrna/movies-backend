@@ -1,4 +1,4 @@
-const { Review } = require('../models');
+const { Review, Image } = require('../models');
 const { getUserIdFromRequest } = require('../utils/user');
 const { getPlatformOrMediaUrl } = require('../utils/platforms');
 
@@ -12,22 +12,17 @@ const get_all_reviews = (req, res) => {
       userId,
     },
     order: [['updatedAt', 'DESC']],
+    include: [
+      {
+        model: Image,
+        as: 'image',
+        attributes: ['img'], // Only select the 'img' attribute
+      },
+    ],
   })
     .then(async reviews => {
-      const reviewsWithImages = await Promise.all(
-        reviews.map(async review => {
-          const { name } = review;
-          const img = await ImageController.get_image_by_name_from_database(name);
-
-          return {
-            ...review.dataValues,
-            img,
-          };
-        })
-      );
-
       return res.status(200).json({
-        data: reviewsWithImages,
+        data: reviews,
         totalRecords: reviews.length,
       });
     })
@@ -47,22 +42,17 @@ const get_latest_reviews = (req, res) => {
     },
     order: [['createdAt', 'DESC']],
     limit: 5,
+    include: [
+      {
+        model: Image,
+        as: 'image',
+        attributes: ['img'],
+      },
+    ],
   })
     .then(async reviews => {
-      const reviewsWithImages = await Promise.all(
-        reviews.map(async review => {
-          const { name } = review;
-          const img = await ImageController.get_image_by_name_from_database(name);
-
-          return {
-            ...review.dataValues,
-            img,
-          };
-        })
-      );
-
       return res.status(200).json({
-        data: reviewsWithImages,
+        data: reviews,
         totalRecords: reviews.length,
       });
     })
@@ -118,23 +108,18 @@ const get_reviews_grouped_by_ratings = async (req, res) => {
             ['rating', 'DESC'],
             ['updatedAt', 'DESC'],
           ],
+          include: [
+            {
+              model: Image,
+              as: 'image',
+              attributes: ['img'],
+            },
+          ],
         });
-
-        const reviewsWithImages = await Promise.all(
-          reviews.map(async review => {
-            const { name } = review;
-            const img = await ImageController.get_image_by_name_from_database(name);
-
-            return {
-              ...review.dataValues,
-              img,
-            };
-          })
-        );
 
         return {
           rating,
-          reviews: reviewsWithImages,
+          reviews,
         };
       })
     );
@@ -155,12 +140,6 @@ const create_review = async (req, res) => {
   const name = reqName && reqName.trim();
   const review = reqReview && reqReview.trim();
   const url = reqUrl && reqUrl.trim() && getPlatformOrMediaUrl(reqUrl);
-
-  let img = await ImageController.get_image_by_name_from_database(name);
-
-  if (!img) {
-    img = await ImageController.get_image_by_name_from_api(name);
-  }
 
   if (!name) {
     return res.status(422).json({
@@ -187,6 +166,19 @@ const create_review = async (req, res) => {
     });
   }
 
+  const dbImg = await ImageController.get_image_by_name_from_database(name);
+  let imageId = null;
+
+  if (dbImg) {
+    imageId = dbImg.id;
+  } else {
+    const newDbImage = await ImageController.get_image_by_name_from_api(name);
+
+    if (newDbImage) {
+      imageId = newDbImage.id;
+    }
+  }
+
   Review.create({
     name,
     rating,
@@ -194,12 +186,10 @@ const create_review = async (req, res) => {
     url,
     userId,
     watchAgain: watchAgain ?? false,
+    imageId,
   })
     .then(review => {
-      return res.status(201).json({
-        ...review.dataValues,
-        img,
-      });
+      return res.status(201).json(review);
     })
     .catch(err => {
       return res.status(err.status || 500).json({
@@ -217,6 +207,13 @@ const get_review_by_id = (req, res) => {
       id: reviewId,
       userId,
     },
+    include: [
+      {
+        model: Image,
+        as: 'image',
+        attributes: ['img'],
+      },
+    ],
   })
     .then(async review => {
       if (!review) {
@@ -231,12 +228,7 @@ const get_review_by_id = (req, res) => {
         });
       }
 
-      const img = await ImageController.get_image_by_name_from_database(review.name);
-
-      return res.status(200).json({
-        ...review.dataValues,
-        img,
-      });
+      return res.status(200).json(review);
     })
     .catch(err => {
       return res.status(err.status || 500).json({
@@ -278,6 +270,13 @@ const update_review_by_id = async (req, res) => {
         where: {
           id: reviewId,
         },
+        include: [
+          {
+            model: Image,
+            as: 'image',
+            attributes: ['img'],
+          },
+        ],
       })
         .then(async review => {
           if (!review) {
@@ -292,9 +291,7 @@ const update_review_by_id = async (req, res) => {
             });
           }
 
-          const img = await ImageController.get_image_by_name_from_database(review.name);
-
-          return res.status(200).json({ ...review.dataValues, img });
+          return res.status(200).json(review);
         })
         .catch(err => {
           return res.status(err.status || 404).json({

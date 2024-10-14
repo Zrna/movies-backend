@@ -16,6 +16,16 @@ module.exports = (sequelize, DataTypes) => {
       onUpdate: 'CASCADE',
       onDelete: 'CASCADE',
     },
+    imageId: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      references: {
+        model: 'images',
+        key: 'id',
+      },
+      onUpdate: 'CASCADE',
+      onDelete: 'SET NULL',
+    },
     name: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -44,6 +54,11 @@ module.exports = (sequelize, DataTypes) => {
     Review.belongsTo(models.User, {
       foreignKey: 'userId',
       as: 'user',
+    });
+    Review.belongsTo(models.Image, {
+      foreignKey: 'imageId',
+      targetKey: 'id',
+      as: 'image',
     });
   };
 
